@@ -1,0 +1,57 @@
+#include <iostream>
+#include <algorithm>
+#define N 100
+using namespace std;
+
+int main() {
+
+	int test_case;
+	int input = 0;
+	int row_sum = 0, col_sum = 0, dig_sum = 0, dig_L_sum = 0;
+	int Rnum;
+	int idx = 0;
+	int arr[100][100] = { 0, };
+	int result[202] = { 0, };
+
+	for (int i = 0; i < 10; i++) {
+		cin >> test_case;	
+		/* 100 x 100 행렬에 데이터 넣기 */
+		for (int row = 0; row < 100; row++) {
+			for (int col = 0; col < 100; col++) {
+				cin >> input;
+				arr[row][col] = input;
+				row_sum += arr[row][col];
+
+				if (row == col) {
+					dig_sum += arr[row][col];
+				}
+			}
+			/* 한 행에 데이터가 다 들어갔으므로 합을 구하여 넣는다.*/
+			result[idx++] = row_sum;
+			row_sum = 0;
+		}
+		result[idx++] = dig_sum; // 오른쪽 대각선 합의 데이터를 넣는다.
+
+		/* 열의 합 데이터를 넣는다. (세로합) */
+		for (int col = 0; col < 100; col++) {
+			for (int row = 0; row < 100; row++) {
+				col_sum += arr[row][col];
+			}
+			result[idx++] = col_sum;
+			col_sum = 0;
+		}
+		Rnum = 0;
+		/* 왼쪽 대각선의 합 데이터를 넣는다.*/
+		for (int col = 99; col >=0 ; col--) {
+			dig_L_sum += arr[Rnum][col];
+			Rnum += 1;
+		}
+		result[idx++] = dig_L_sum;
+		
+		/* 열 및 행 합 데이터 정렬 */
+		sort(result, result + (N*2 + 2));
+		cout << "#" << test_case << " " << result[(N * 2 + 2) - 1] << endl;
+
+		idx = 0; row_sum = 0; col_sum = 0; dig_sum = 0; dig_L_sum = 0;
+	}
+}
