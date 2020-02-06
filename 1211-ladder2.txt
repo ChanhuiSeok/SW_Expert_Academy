@@ -1,0 +1,68 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <stdio.h>
+#define N 100
+#define VISIT 1
+
+int main() {
+
+	int test_case;
+	int input = 0;
+	int rowNum = 0, colNum = 0;
+	int path_length = 0, min = 9999;
+	int startPoint = 0, Rflag = 0;
+	int arr[100][102] = { 0, };
+	int visit[100][102] = { 0, };
+
+	// 양쪽 벽을 값 -1로 초기화
+	for (int j = 0; j < 100; j++) {
+		arr[j][0] = -1;
+		arr[j][101] = -1;
+	}
+
+	for (int T = 0; T < 10; T++) {
+		scanf("%d", &test_case);
+		for (int i = 0; i < 100; i++) { // 사다리 데이터 받기
+			for (int j = 1; j < 101; j++) {
+				scanf("%d", &input);
+				arr[i][j] = input;
+			}
+		}
+
+		for (int k = 1; k < 101; k++) { // 시작 지점이 될 수 있는 총 100 개 중 1인 곳에서 시작한다.
+			rowNum = 0; colNum = k;
+			/* 사다리타기 진행 */
+
+			if (arr[rowNum][colNum] == 1) {
+				path_length = 0;
+
+				for (int m = 0; m < 100; m++) {
+					rowNum++; path_length++; // 처음 1회는 무조건 아래로 내려간다.
+
+					// 오른쪽으로 갈 수 있을 때까지 간다
+					while (arr[rowNum][colNum + 1] == 1) {
+						Rflag = 1;
+						colNum += 1; path_length++;
+					}
+					// 왼쪽으로 갈 수 있을 때까지 간다
+                    // Rflag의 역할은, 오른쪽으로 계속 이동한 이력이 있으면
+                    // 같은 높이에서 왼쪽으로는 갈 수 없도록 하기 위함이다.
+					if (Rflag != 1){
+						while (arr[rowNum][colNum - 1] == 1) {
+							colNum -= 1; path_length++;
+						}
+					}
+					Rflag = 0;
+				}
+
+				if (min >= path_length) {
+					min = path_length;
+					startPoint = k - 1;
+				}
+			}
+		}
+		printf("#%d %d\n", test_case, startPoint);
+		min = 9999;
+	}
+
+}
