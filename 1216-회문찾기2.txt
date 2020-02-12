@@ -1,0 +1,100 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+int find(char (*string)[100], int patternLen) {
+	int i = 0, j = 0, count = 0, flag = 0;
+	int startPoint = 0;
+	int n = 100;
+
+	// 가로방향 살펴보기
+	for (int k = 0; k < n; k++) {
+		// i=0부터 시작하여, i+(patternLen-1) 값이 k 이하일때 까지만 반복한다.
+		while (startPoint + (patternLen)-1 <= n - 1) {
+			i = startPoint;
+			j = i + (patternLen)-1;
+
+			for (int m = 0; m < patternLen / 2; m++) {
+				if (string[k][i] == string[k][j]) {
+					i++; j--;
+					flag = 1;
+				}
+				else { // 같지 않으면 회문이 아니므로
+					flag = 0;
+					break;
+				}
+			}
+			// 회문을 찾았으면 반복문 나가기
+			if (flag == 1) {
+				count = 1;
+				break;
+			}
+			startPoint++;
+		}
+		startPoint = 0;
+
+		// 회문을 하나라도 찾았으므로 전체 반복문 나가기
+		if (flag == 1)
+			break;
+	}
+
+	// 세로방향 살펴보기(단, 가로방향에서 이미 회문을 찾았다면 세로는 볼 필요가 없다.)
+	if (count != 1){
+		for (int k = 0; k < n; k++) {
+		// i=0부터 시작하여, i+(patternLen-1) 값이 k 이하일때 까지만 반복한다.
+			while (startPoint + (patternLen)-1 <= n - 1) {
+				i = startPoint;
+				j = i + (patternLen)-1;
+
+				for (int m = 0; m < patternLen / 2; m++) {
+					if (string[i][k] == string[j][k]) {
+						i++; j--;
+						flag = 1;
+					}
+					else { // 같지 않으면 회문이 아니므로
+						flag = 0;
+						break;
+					}
+				}
+				// 회문을 찾았으면 반복문 나가기
+				if (flag == 1) {
+					count = 1;
+					break;
+				}
+				startPoint++;
+			}
+			startPoint = 0;
+
+			// 회문을 하나라도 찾았으므로 전체 반복문 나가기
+			if (flag == 1)
+				break;
+		}
+	}
+
+	return count;
+}
+
+int main() {
+
+	int test_case, patternLen, count;
+	char string[100][100];
+	int p;
+
+	for (int T = 0; T < 10; T++) {
+		scanf("%d", &patternLen);
+
+		for (int i = 0; i < 100; i++) {
+			scanf("%s", string[i]);
+		}
+
+		for (p = 100; p >= 1; p--) {
+			count = find(string, p);
+			if (count == 1)
+				break;
+		}
+
+		printf("#%d %d\n", T + 1, p);
+		count = 0;
+	}
+
+}
