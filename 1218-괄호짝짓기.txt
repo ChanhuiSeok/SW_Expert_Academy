@@ -1,0 +1,51 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+
+int main() {
+
+	int len, flag = 0;
+	char c[1000], pStr, str;
+	stack<char> s;
+
+	for (int T = 1; T <= 10; T++) {
+		cin >> len;
+		cin.get(str);
+		cin.getline(c, len+1);
+
+		for (int i = 0; i < len; i++) {			
+			if (c[i] == '(' || c[i] == '[' || c[i] == '{' || c[i] == '<') { // 왼쪽 괄호이면
+				s.push(c[i]);
+			}
+			else { // 오른쪽 괄호를 만나면
+				if (!s.empty()) { // 스택이 비어있지 않을 때,
+					pStr = s.top(); // 맨 위의 문자를 저장 후
+					s.pop(); // 스택에서 pop 한다.
+
+					if ((pStr == '(' && c[i] == ')') || ((pStr == '[' && c[i] == ']'))
+						|| ((pStr == '{' && c[i] == '}')) || ((pStr == '<' && c[i] == '>'))) {
+						flag = 1;
+					}
+					else { // 유효하지 않음
+						flag = 0;
+						break;
+					}
+				}
+				else // 스택이 비어있으면 빠져나온다.
+				{	
+					flag = 0;
+					break;
+				}
+			}
+		}
+		// 문자열 길이만큼 다 보았을 때, 스택이 비어 있지 않다면?
+		if (!s.empty())
+			flag = 0;
+
+		cout << "#" << T << " " << flag << endl;
+
+		while (!s.empty()) {
+			s.pop();
+		}		
+	}
+}
