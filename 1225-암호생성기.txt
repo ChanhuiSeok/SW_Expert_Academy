@@ -1,0 +1,51 @@
+#include <iostream>
+#include <queue>
+using namespace std;
+
+int main() {
+
+	int input, f_data, sub_C, cycle, test_case;
+	queue<int> q;
+
+	cin.tie(NULL); // cin의 실행시간을 감소시켜 줌
+
+	for (int T = 1; T <= 10; T++) {
+
+		cin >> test_case;
+		for (int i = 0; i < 8; i++) {
+			cin >> input;
+			q.push(input);
+		}
+
+		sub_C = 1;
+		cycle = 1;
+
+		while (1) {
+			f_data = q.front();
+			f_data -= sub_C;
+
+			q.pop();
+			if (f_data <= 0) {
+				q.push(0);
+				break;
+			}
+			q.push(f_data);
+			if (cycle >= 5) {
+				sub_C = 0;
+				cycle = 0;
+			}
+			sub_C += 1;
+			cycle++;
+		}
+
+		// print
+		cout << "#" << T << " ";
+		for (int j = 0; j < 8; j++) {
+			cout << q.front() << " ";
+			q.pop();
+		}
+		cout << "\n";
+
+	}
+
+}
