@@ -1,0 +1,55 @@
+#include <iostream>
+#include <list>
+using namespace std;
+
+int main() {
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int N, cnt, input;
+	int I, x, y;
+	char ch;
+
+	for (int T = 1; T <= 10; T++) {
+
+		cin >> N; cin.get(ch);
+		list<int> li;
+
+		for (int i = 0; i < N; i++) {
+			cin >> input;
+			li.push_back(input);
+		}
+		cin.get(ch); cin >> cnt; cin.get(ch);
+
+		list<int>::iterator iter; // 리스트에 저장된 원소 순회를 위한 반복자 선언
+		list<int> li2; // 추가로 삽입할 임시 리스트를 저장하기 위한 공간
+
+		for (int j = 0; j < cnt; j++) {
+			iter = li.begin();
+			cin >> ch;
+			cin >> x;
+			cin >> y;
+
+			for (int k = 0; k < y; k++) {
+				cin >> input;
+				li2.push_back(input);
+			}
+			for (int m = 0; m < x; m++) 
+				iter++;	
+
+			li.splice(iter, li2); // li 리스트의 iter가 가리키는 위치에 li2의 모든 원소 삽입
+		}
+
+		cout << "#" << T << " ";
+        
+		iter = li.begin();
+		for (int n = 0; n < 10; n++) {
+			cout << *(iter++) << " ";
+		}
+		cout << "\n";
+
+	}
+
+}
