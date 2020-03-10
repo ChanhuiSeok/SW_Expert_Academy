@@ -5,7 +5,6 @@
 
 
 * SW Expert academy에서 푸는 문제들의 소스코드들을 업로드하는 레퍼지토리입니다.
-* This repository is created to upload source code of the problem I solved in SW Expert academy.
 
 
 
